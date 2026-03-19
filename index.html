@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-1.0" />
+  <title>Guitar Practice</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- 应用根容器 -->
+  <div class="app">
+    <header>
+      <h1>Guitar Practice</h1>
+    </header>
+
+    <main>
+      <!-- 节拍器模块 -->
+      <section class="metronome card">
+        <h2>Metronome</h2>
+
+        <!-- 视觉反馈区：节拍圆点 + 钟摆 -->
+        <div class="beat-display">
+          <!-- 节拍圆点，由 JS 动态生成 -->
+          <div class="beat-dots" id="beatDots"></div>
+          <!-- 钟摆动画容器 -->
+          <div class="pendulum-container">
+            <div class="pendulum" id="pendulum"></div>
+          </div>
+        </div>
+
+        <!-- BPM 控制区：减少按钮 / 数字显示 / 增加按钮 -->
+        <div class="bpm-control">
+          <button class="btn-icon" id="bpmDown" aria-label="Decrease BPM">&#8722;</button>
+          <div class="bpm-display">
+            <span id="bpmValue">120</span>
+            <label>BPM</label>
+          </div>
+          <button class="btn-icon" id="bpmUp" aria-label="Increase BPM">&#43;</button>
+        </div>
+
+        <!-- BPM 滑块（范围 40~240） -->
+        <input
+          type="range"
+          id="bpmSlider"
+          min="40"
+          max="240"
+          value="120"
+          aria-label="BPM slider"
+        />
+
+        <!-- 拍号选择 -->
+        <div class="time-sig-control">
+          <label>Time Signature</label>
+          <div class="time-sig-buttons">
+            <button class="btn-time active" data-beats="2">2/4</button>
+            <button class="btn-time active" data-beats="3">3/4</button>
+            <button class="btn-time active" data-beats="4">4/4</button>
+            <button class="btn-time" data-beats="6">6/8</button>
+          </div>
+        </div>
+
+        <!-- 开始 / 停止按钮 -->
+        <button class="btn-start" id="startStop">Start</button>
+
+        <!-- 点击节拍按钮：通过点击估算 BPM -->
+        <div class="tap-area">
+          <button class="btn-tap" id="tapBtn">Tap Tempo</button>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="metronome.js"></script>
+</body>
+</html>
