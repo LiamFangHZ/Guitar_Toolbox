@@ -31,6 +31,9 @@ TUNINGS.custom = { label: 'Custom', midi: [...TUNINGS.standard.midi] };
 let refA4 = 440;
 let currentTuningKey = 'standard';
 
+// Expose current tuning for chord-finder.js
+window.getTunerMidi = () => ({ key: currentTuningKey, midi: [...TUNINGS[currentTuningKey].midi] });
+
 // DOM refs
 const tunerStartStop  = document.getElementById('tunerStartStop');
 const tunerNoteEl     = document.getElementById('tunerNote');
@@ -333,6 +336,9 @@ function renderCustomTuningEditor() {
     const updateMidi = () => {
       TUNINGS.custom.midi[idx] = (Number(octaveSelect.value) + 1) * 12 + Number(noteSelect.value);
       renderStringRefs();
+      document.dispatchEvent(new CustomEvent('tunerTuningChanged', {
+        detail: { key: 'custom', midi: [...TUNINGS.custom.midi] }
+      }));
     };
     noteSelect.addEventListener('change', updateMidi);
     octaveSelect.addEventListener('change', updateMidi);
@@ -352,6 +358,9 @@ tuningSelect.addEventListener('change', () => {
   customTuningEl.classList.toggle('visible', isCustom);
   if (isCustom) renderCustomTuningEditor();
   renderStringRefs();
+  document.dispatchEvent(new CustomEvent('tunerTuningChanged', {
+    detail: { key: currentTuningKey, midi: [...TUNINGS[currentTuningKey].midi] }
+  }));
 });
 
 refPitchSelect.addEventListener('change', () => {

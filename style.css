@@ -41,12 +41,20 @@ main {
   display: flex;
   gap: 24px;
   align-items: flex-start;
+  flex-wrap: wrap;
 }
 
 main > .card {
-  flex: 1;
   min-width: 0;
 }
+
+/* Cards per row layout */
+main.cpr-1 > .card { flex: 0 0 100%; }
+
+main.cpr-2 > .card         { flex: 1 1 calc(50% - 12px); }
+main.cpr-2 > .chord-finder { flex: 1 1 100%; }
+
+main.cpr-3 > .card { flex: 1 1 calc(33.333% - 16px); }
 
 /* 页面标题区域 */
 header {
@@ -280,11 +288,12 @@ header h1 {
   display: flex;
   gap: 8px;
   justify-content: center;
+  flex-wrap: wrap;
 }
 
 /* 拍号按钮：默认未选中状态 */
 .btn-time {
-  padding: 8px 16px;
+  padding: 8px 12px;
   border-radius: 20px;
   border: 2px solid var(--accent2);
   background: transparent;
@@ -292,6 +301,7 @@ header h1 {
   font-size: 0.9rem;
   cursor: pointer;
   transition: all 0.15s;
+  white-space: nowrap;
 }
 
 .btn-time:hover {
@@ -488,13 +498,17 @@ header h1 {
 
 .custom-tuning-header {
   display: grid;
-  grid-template-columns: 28px 1fr 1fr;
+  grid-template-columns: 52px 1fr 1fr;
   gap: 6px;
   font-size: 0.68rem;
   color: var(--text-muted);
   letter-spacing: 1.5px;
   text-transform: uppercase;
   padding: 0 2px 6px;
+}
+
+.custom-tuning-header span:first-child {
+  text-align: center;
 }
 
 .custom-tuning-grid {
@@ -505,7 +519,7 @@ header h1 {
 
 .custom-string-control {
   display: grid;
-  grid-template-columns: 28px 1fr 1fr;
+  grid-template-columns: 52px 1fr 1fr;
   align-items: center;
   gap: 6px;
 }
@@ -748,6 +762,36 @@ header h1 {
   margin-bottom: 12px;
 }
 
+/* Cards-per-row buttons */
+.cpr-buttons {
+  display: flex;
+  gap: 8px;
+}
+
+.btn-cpr {
+  flex: 1;
+  padding: 8px 0;
+  border-radius: 20px;
+  border: 2px solid var(--accent2);
+  background: transparent;
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.btn-cpr:hover {
+  border-color: var(--accent);
+  color: var(--text);
+}
+
+.btn-cpr.active {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+
 /* Language buttons */
 .lang-buttons {
   display: flex;
@@ -825,4 +869,300 @@ header h1 {
 .settings-toggle input:checked + .toggle-track::after {
   transform: translateX(20px);
   background: #fff;
+}
+
+/* ── 和弦速查 (Chord Finder) ──────────────────────────────────────────── */
+
+/* Centered single-column inner layout */
+.cf-inner {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  max-width: 420px;
+  margin: 0 auto;
+}
+
+/* Top controls row */
+.cf-controls {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+
+.cf-control-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.cf-control-group label {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+/* Fret stepper (+/-) */
+.cf-stepper {
+  display: flex;
+  align-items: center;
+  border: 1px solid var(--accent2);
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.cf-stepper button {
+  width: 28px;
+  height: 28px;
+  border: none;
+  background: var(--accent2);
+  color: var(--text);
+  font-size: 1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s;
+  line-height: 1;
+}
+
+.cf-stepper button:hover {
+  background: var(--accent);
+}
+
+.cf-stepper input[type="number"] {
+  width: 40px;
+  text-align: center;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text);
+  background: transparent;
+  border: none;
+  outline: none;
+  -moz-appearance: textfield;
+}
+
+.cf-stepper input[type="number"]::-webkit-inner-spin-button,
+.cf-stepper input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+}
+
+/* Fretboard wrapper */
+.cf-fretboard {
+  user-select: none;
+}
+
+/* Shared row layout */
+.cf-row {
+  display: flex;
+  align-items: stretch;
+}
+
+/* Fret label column (right side) */
+.cf-fret-lbl {
+  width: 36px;
+  flex-shrink: 0;
+  font-size: 0.68rem;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding-left: 6px;
+}
+
+/* String column in header */
+.cf-str-col {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding-bottom: 6px;
+}
+
+.cf-str-name {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+/* Open / Muted toggle button */
+.cf-ox-btn {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  border: 1.5px solid;
+  background: transparent;
+  font-size: 0.8rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: border-color 0.15s, color 0.15s, background 0.15s;
+  line-height: 1;
+  padding: 0;
+}
+
+.cf-ox-btn.cf-open {
+  border-color: #555;
+  color: #888;
+}
+
+.cf-ox-btn.cf-open:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.cf-ox-btn.cf-muted {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.cf-ox-btn.cf-muted:hover {
+  background: rgba(233, 69, 96, 0.15);
+}
+
+/* Nut bar (open position) */
+.cf-nut-row {
+  display: flex;
+  height: 5px;
+}
+
+.cf-nut-seg {
+  flex: 1;
+  background: var(--text);
+  border-radius: 2px;
+}
+
+/* Fret row */
+.cf-fret-row {
+  height: 46px;
+}
+
+/* Individual fret cell */
+.cf-cell {
+  flex: 1;
+  position: relative;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-bottom: 1px solid #353555;
+  transition: background 0.1s;
+}
+
+/* String line (vertical) */
+.cf-cell::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 1.5px;
+  background: #404060;
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+
+.cf-cell:hover {
+  background: rgba(233, 69, 96, 0.08);
+}
+
+/* Finger dot */
+.cf-dot {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: var(--accent);
+  position: relative;
+  z-index: 1;
+  box-shadow: 0 2px 10px rgba(233, 69, 96, 0.45);
+  pointer-events: none;
+  flex-shrink: 0;
+}
+
+/* Result area */
+.cf-result {
+  min-height: 72px;
+  padding: 14px 16px;
+  background: rgba(0, 0, 0, 0.25);
+  border-radius: 10px;
+}
+
+.cf-hint {
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  text-align: center;
+  margin: 0;
+  padding: 8px 0;
+}
+
+.cf-unknown {
+  color: var(--text-muted);
+  font-size: 1rem;
+  margin-bottom: 8px;
+}
+
+.cf-matches {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 16px;
+  margin-bottom: 10px;
+}
+
+.cf-match {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.cf-primary .cf-match-name {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--accent);
+  line-height: 1;
+}
+
+.cf-primary .cf-match-type {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+.cf-secondary .cf-match-name {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #888;
+  line-height: 1;
+}
+
+.cf-secondary .cf-match-type {
+  font-size: 0.68rem;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+.cf-constituent {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  letter-spacing: 1px;
+}
+
+/* Clear button */
+.cf-clear-btn {
+  padding: 7px 20px;
+  border: 1px solid var(--accent2);
+  border-radius: 8px;
+  background: transparent;
+  color: var(--text-muted);
+  cursor: pointer;
+  font-size: 0.82rem;
+  transition: border-color 0.15s, color 0.15s;
+}
+
+.cf-clear-btn:hover {
+  border-color: var(--accent);
+  color: var(--text);
 }

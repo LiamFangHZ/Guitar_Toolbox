@@ -135,6 +135,56 @@
 
         <button class="btn-start" id="tunerStartStop" data-i18n="startTuner">Start Tuner</button>
       </section>
+      <!-- Chord Finder card -->
+      <section class="chord-finder card" id="chordFinderCard">
+        <h2 data-i18n="chordFinder">和弦速查</h2>
+
+        <div class="cf-inner">
+          <div class="cf-controls">
+            <div class="cf-control-group">
+              <label data-i18n="cfTuning">调音</label>
+              <select id="cfTuningSelect">
+                <option value="standard">Standard (EADGBe)</option>
+                <option value="dropD">Drop D (DADGBe)</option>
+                <option value="halfDown">Half Step Down</option>
+                <option value="fullDown">Full Step Down</option>
+                <option value="openG">Open G</option>
+                <option value="openD">Open D</option>
+                <option value="openE">Open E</option>
+                <option value="openA">Open A</option>
+                <option value="dadgad">DADGAD</option>
+                <option value="custom" data-i18n="tuningCustom">Custom…</option>
+              </select>
+            </div>
+            <div class="cf-control-group">
+              <label data-i18n="cfStartFret">起始品</label>
+              <div class="cf-stepper">
+                <button id="cfFretDec" aria-label="Decrease fret">&#8722;</button>
+                <input id="cfFretDisplay" type="number" min="1" max="20" value="1" />
+                <button id="cfFretInc" aria-label="Increase fret">&#43;</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Custom tuning editor (shown when "Custom…" selected) -->
+          <div class="custom-tuning" id="cfCustomEditor">
+            <div class="custom-tuning-header">
+              <span data-i18n="stringLabel">String</span>
+              <span data-i18n="noteLabel">Note</span>
+              <span data-i18n="octaveLabel">Oct</span>
+            </div>
+            <div class="custom-tuning-grid" id="cfCustomGrid"></div>
+          </div>
+
+          <!-- Virtual fretboard -->
+          <div id="cfFretboard" class="cf-fretboard"></div>
+
+          <!-- Chord identification result -->
+          <div id="cfResult" class="cf-result"></div>
+
+          <button id="cfClearBtn" class="cf-clear-btn" data-i18n="cfClear">清空</button>
+        </div>
+      </section>
     </main>
   </div>
 
@@ -154,6 +204,14 @@
         </div>
       </div>
       <div class="settings-section">
+        <h3 data-i18n="cardsPerRow">每行显示数量</h3>
+        <div class="cpr-buttons">
+          <button class="btn-cpr" data-cpr="1">1</button>
+          <button class="btn-cpr active" data-cpr="2">2</button>
+          <button class="btn-cpr" data-cpr="3">3</button>
+        </div>
+      </div>
+      <div class="settings-section">
         <h3 data-i18n="visibleCards">Visible Cards</h3>
         <label class="settings-toggle">
           <span data-i18n="metronome">Metronome</span>
@@ -165,6 +223,19 @@
           <input type="checkbox" id="toggleTuner" checked>
           <span class="toggle-track"></span>
         </label>
+        <label class="settings-toggle">
+          <span data-i18n="chordFinder">和弦速查</span>
+          <input type="checkbox" id="toggleChordFinder" checked>
+          <span class="toggle-track"></span>
+        </label>
+      </div>
+      <div class="settings-section">
+        <h3 data-i18n="cfSyncTitle">和弦速查设置</h3>
+        <label class="settings-toggle">
+          <span data-i18n="cfSyncLabel">同步调音器调弦</span>
+          <input type="checkbox" id="toggleSyncChord">
+          <span class="toggle-track"></span>
+        </label>
       </div>
     </div>
   </aside>
@@ -172,5 +243,6 @@
   <script src="app.js"></script>
   <script src="metronome.js"></script>
   <script src="tuner.js"></script>
+  <script src="chord-finder.js"></script>
 </body>
 </html>
