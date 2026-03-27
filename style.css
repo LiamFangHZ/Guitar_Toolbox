@@ -307,6 +307,65 @@ header h1 {
   font-weight: 600;
 }
 
+/* 自定义拍号输入区（Custom 选中时展开） */
+.custom-sig-input {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.custom-sig-input.visible {
+  display: flex;
+}
+
+.custom-sig-input input[type="number"] {
+  width: 64px;
+  text-align: center;
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--text);
+  background: transparent;
+  border: 2px solid var(--accent2);
+  border-radius: 10px;
+  padding: 4px 6px;
+  outline: none;
+  -moz-appearance: textfield;
+}
+
+.custom-sig-input input[type="number"]::-webkit-outer-spin-button,
+.custom-sig-input input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}
+
+.custom-sig-input input[type="number"]:focus {
+  border-color: var(--accent);
+}
+
+.sig-divider {
+  font-size: 2rem;
+  font-weight: 300;
+  color: var(--text-muted);
+  line-height: 1;
+}
+
+.custom-sig-input select {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--text);
+  background: transparent;
+  border: 2px solid var(--accent2);
+  border-radius: 10px;
+  padding: 4px 8px;
+  cursor: pointer;
+  outline: none;
+}
+
+.custom-sig-input select:focus {
+  border-color: var(--accent);
+}
+
 /* 开始/停止按钮：全宽，主要操作 */
 .btn-start {
   width: 100%;

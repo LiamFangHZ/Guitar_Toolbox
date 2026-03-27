@@ -13,6 +13,7 @@ const TRANSLATIONS = {
     start: 'Start',
     stop: 'Stop',
     tapTempo: 'Tap Tempo',
+    timeSigCustom: 'Custom',
     // Tuner
     tuner: 'Tuner',
     tuning: 'Tuning',
@@ -50,6 +51,7 @@ const TRANSLATIONS = {
     start: '开始',
     stop: '停止',
     tapTempo: '点击节拍',
+    timeSigCustom: '自定义',
     // Tuner
     tuner: '调音器',
     tuning: '调弦方式',

@@ -43,6 +43,17 @@
             <button class="btn-time" data-beats="3">3/4</button>
             <button class="btn-time active" data-beats="4">4/4</button>
             <button class="btn-time" data-beats="6">6/8</button>
+            <button class="btn-time" data-beats="custom" data-i18n="timeSigCustom">Custom</button>
+          </div>
+          <div class="custom-sig-input" id="customBeatsInput">
+            <input type="number" id="customBeatsValue" min="1" max="32" value="5" />
+            <span class="sig-divider">/</span>
+            <select id="customUnitValue">
+              <option value="2">2</option>
+              <option value="4" selected>4</option>
+              <option value="8">8</option>
+              <option value="16">16</option>
+            </select>
           </div>
         </div>
 

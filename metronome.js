@@ -9,6 +9,8 @@ let isRunning = false;
 let bpm = 120;
 // 每小节的拍数（拍号分子）
 let beatsPerMeasure = 4;
+// 以几分音符为一拍（拍号分母）
+let beatUnit = 4;
 // 当前拍在小节内的序号（0 为强拍）
 let currentBeat = 0;
 
@@ -198,17 +200,43 @@ holdRepeat(bpmUp, () => setBpm(bpm + 1));
 // --- 拍号切换 ---
 
 const timeSigButtons = document.querySelectorAll('.btn-time');
+const customBeatsInputEl = document.getElementById('customBeatsInput');
+const customBeatsValueEl = document.getElementById('customBeatsValue'); // <input type="number">
+const customUnitValueEl  = document.getElementById('customUnitValue');  // <select>
+
+// 自定义拍号输入变化时同步到节拍器
+function applyCustomSig() {
+  const n = Math.min(32, Math.max(1, parseInt(customBeatsValueEl.value) || 1));
+  customBeatsValueEl.value = n;
+  beatsPerMeasure = n;
+  beatUnit = parseInt(customUnitValueEl.value);
+  currentBeat = 0;
+  renderBeatDots();
+  if (isRunning) { stop(); start(); }
+}
+
+customBeatsValueEl.addEventListener('change', applyCustomSig);
+customUnitValueEl.addEventListener('change', applyCustomSig);
+
 timeSigButtons.forEach(btn => {
   btn.classList.remove('active');
   if (Number(btn.dataset.beats) === beatsPerMeasure) btn.classList.add('active');
 
   btn.addEventListener('click', () => {
-    beatsPerMeasure = Number(btn.dataset.beats);
     timeSigButtons.forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
+
+    if (btn.dataset.beats === 'custom') {
+      beatsPerMeasure = parseInt(customBeatsValueEl.value) || 5;
+      beatUnit = parseInt(customUnitValueEl.value);
+      customBeatsInputEl.classList.add('visible');
+    } else {
+      beatsPerMeasure = Number(btn.dataset.beats);
+      customBeatsInputEl.classList.remove('visible');
+    }
+
     currentBeat = 0;
     renderBeatDots();
-    // 如果正在播放，重启以应用新拍号
     if (isRunning) { stop(); start(); }
   });
 });
