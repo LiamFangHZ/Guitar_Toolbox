@@ -147,7 +147,7 @@ function start() {
   schedulerTimer = setInterval(scheduler, SCHEDULER_INTERVAL);
   requestAnimationFrame(visualLoop);
 
-  startStopBtn.textContent = 'Stop';
+  startStopBtn.textContent = t('stop');
   startStopBtn.classList.add('running');
 }
 
@@ -160,7 +160,7 @@ function stop() {
   beatDotsEl.querySelectorAll('.beat-dot').forEach(d => d.classList.remove('active', 'accent'));
   pendulum.classList.remove('swing-left', 'swing-right');
 
-  startStopBtn.textContent = 'Start';
+  startStopBtn.textContent = t('start');
   startStopBtn.classList.remove('running');
 }
 

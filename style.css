@@ -31,16 +31,53 @@ body {
   padding: 24px 16px;
 }
 
-/* 应用容器：限制最大宽度，适配移动端 */
+/* 应用容器：左右双栏布局 */
 .app {
   width: 100%;
-  max-width: 480px;
+  max-width: 1020px;
+}
+
+main {
+  display: flex;
+  gap: 24px;
+  align-items: flex-start;
+}
+
+main > .card {
+  flex: 1;
+  min-width: 0;
 }
 
 /* 页面标题区域 */
 header {
   text-align: center;
   margin-bottom: 28px;
+  position: relative;
+}
+
+/* 设置齿轮按钮 */
+.btn-settings {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 2px solid var(--accent2);
+  background: transparent;
+  color: var(--text-muted);
+  font-size: 1.1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: border-color 0.15s, color 0.15s;
+}
+
+.btn-settings:hover {
+  border-color: var(--accent);
+  color: var(--text);
 }
 
 header h1 {
@@ -331,4 +368,402 @@ header h1 {
 .btn-tap:active {
   background: var(--accent2);
   transform: scale(0.96);
+}
+
+/* ===================== Tuner ===================== */
+
+/* Tuner settings row */
+.tuner-settings {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.tuner-setting-group {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.tuner-setting-group label {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+
+.tuner-setting-group select {
+  background: var(--accent2);
+  color: var(--text);
+  border: 1px solid var(--accent2);
+  border-radius: 8px;
+  padding: 8px 10px;
+  font-size: 0.82rem;
+  cursor: pointer;
+  outline: none;
+  width: 100%;
+  -webkit-appearance: none;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%23888'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+}
+
+.tuner-setting-group select:focus {
+  border-color: var(--accent);
+}
+
+/* Custom tuning editor */
+.custom-tuning {
+  display: none;
+  margin-bottom: 20px;
+  background: rgba(0,0,0,0.2);
+  border-radius: 8px;
+  padding: 12px;
+}
+
+.custom-tuning.visible {
+  display: block;
+}
+
+.custom-tuning-header {
+  display: grid;
+  grid-template-columns: 28px 1fr 1fr;
+  gap: 6px;
+  font-size: 0.68rem;
+  color: var(--text-muted);
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  padding: 0 2px 6px;
+}
+
+.custom-tuning-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.custom-string-control {
+  display: grid;
+  grid-template-columns: 28px 1fr 1fr;
+  align-items: center;
+  gap: 6px;
+}
+
+.custom-string-label {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  text-align: center;
+  font-weight: 600;
+}
+
+.custom-string-control select {
+  background: var(--accent2);
+  color: var(--text);
+  border: 1px solid var(--accent2);
+  border-radius: 6px;
+  padding: 6px 8px;
+  font-size: 0.82rem;
+  cursor: pointer;
+  outline: none;
+  width: 100%;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.custom-string-control select:focus {
+  border-color: var(--accent);
+}
+
+/* Flat / Sharp / In-Tune status */
+.tuner-status {
+  text-align: center;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-top: 6px;
+  min-height: 1rem;
+}
+
+.tuner-status.flat  { color: #3498db; }
+.tuner-status.sharp { color: #e74c3c; }
+.tuner-status.in-tune { color: #2ecc71; }
+
+.tuner-note-display {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.tuner-note {
+  font-size: 4rem;
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1;
+  min-height: 4rem;
+}
+
+.tuner-note.in-tune {
+  color: #2ecc71;
+}
+
+.tuner-octave {
+  font-size: 1rem;
+  color: var(--text-muted);
+  margin-top: 4px;
+  min-height: 1.2rem;
+}
+
+.tuner-freq {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  min-height: 1rem;
+}
+
+/* Gauge */
+.tuner-gauge {
+  margin-bottom: 20px;
+}
+
+.gauge-labels {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 4px;
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  margin-bottom: 4px;
+}
+
+.gauge-center-label {
+  color: var(--text);
+}
+
+.gauge-track {
+  height: 8px;
+  background: var(--accent2);
+  border-radius: 4px;
+  position: relative;
+  overflow: visible;
+}
+
+.gauge-center-mark {
+  position: absolute;
+  top: -4px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 2px;
+  height: 16px;
+  background: var(--text);
+  border-radius: 1px;
+  opacity: 0.5;
+}
+
+.gauge-needle {
+  position: absolute;
+  top: -6px;
+  width: 4px;
+  height: 20px;
+  background: var(--accent);
+  border-radius: 2px;
+  left: 50%;
+  transform: translateX(-50%);
+  transition: left 0.1s ease-out, background 0.2s;
+}
+
+.gauge-needle.in-tune {
+  background: #2ecc71;
+}
+
+.tuner-cents {
+  text-align: center;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin-top: 8px;
+  min-height: 1rem;
+}
+
+/* String references */
+.string-refs {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  gap: 6px;
+}
+
+.string-ref {
+  flex: 1;
+  text-align: center;
+  padding: 8px 4px;
+  border-radius: 8px;
+  border: 1px solid var(--accent2);
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  transition: all 0.2s;
+}
+
+.string-ref.active {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+  font-weight: 600;
+}
+
+/* ===================== Settings drawer ===================== */
+
+.settings-backdrop {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  z-index: 100;
+}
+
+.settings-backdrop.open { display: block; }
+
+.settings-panel {
+  position: fixed;
+  top: 0;
+  right: 0;
+  height: 100%;
+  width: 300px;
+  max-width: 90vw;
+  background: var(--surface);
+  z-index: 101;
+  transform: translateX(100%);
+  transition: transform 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  box-shadow: -8px 0 32px rgba(0,0,0,0.5);
+}
+
+.settings-panel.open { transform: translateX(0); }
+
+.settings-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 24px;
+  border-bottom: 1px solid var(--accent2);
+}
+
+.settings-header h2 {
+  font-size: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  color: var(--text-muted);
+  margin: 0;
+  text-align: left;
+}
+
+.settings-close {
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  font-size: 1.5rem;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0 4px;
+  transition: color 0.15s;
+}
+
+.settings-close:hover { color: var(--text); }
+
+.settings-body {
+  padding: 24px;
+  flex: 1;
+  overflow-y: auto;
+}
+
+.settings-section {
+  margin-bottom: 32px;
+}
+
+.settings-section h3 {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+
+/* Language buttons */
+.lang-buttons {
+  display: flex;
+  gap: 8px;
+}
+
+.btn-lang {
+  padding: 8px 20px;
+  border-radius: 20px;
+  border: 2px solid var(--accent2);
+  background: transparent;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.btn-lang:hover {
+  border-color: var(--accent);
+  color: var(--text);
+}
+
+.btn-lang.active {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+  font-weight: 600;
+}
+
+/* Toggle switch */
+.settings-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 0;
+  cursor: pointer;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+
+.settings-toggle > span {
+  font-size: 0.95rem;
+  color: var(--text);
+}
+
+.settings-toggle input[type="checkbox"] {
+  display: none;
+}
+
+.toggle-track {
+  width: 44px;
+  height: 24px;
+  border-radius: 12px;
+  background: var(--accent2);
+  position: relative;
+  flex-shrink: 0;
+  transition: background 0.2s;
+}
+
+.toggle-track::after {
+  content: '';
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #666;
+  transition: transform 0.2s, background 0.2s;
+}
+
+.settings-toggle input:checked + .toggle-track {
+  background: var(--accent);
+}
+
+.settings-toggle input:checked + .toggle-track::after {
+  transform: translateX(20px);
+  background: #fff;
 }

@@ -2,33 +2,29 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Guitar Practice</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <!-- 应用根容器 -->
   <div class="app">
     <header>
-      <h1>Guitar Practice</h1>
+      <h1 data-i18n="appTitle">Guitar Practice</h1>
+      <button class="btn-settings" id="settingsBtn" aria-label="Settings">⚙</button>
     </header>
 
     <main>
-      <!-- 节拍器模块 -->
-      <section class="metronome card">
-        <h2>Metronome</h2>
+      <!-- Metronome card -->
+      <section class="metronome card" id="metronomeCard">
+        <h2 data-i18n="metronome">Metronome</h2>
 
-        <!-- 视觉反馈区：节拍圆点 + 钟摆 -->
         <div class="beat-display">
-          <!-- 节拍圆点，由 JS 动态生成 -->
           <div class="beat-dots" id="beatDots"></div>
-          <!-- 钟摆动画容器 -->
           <div class="pendulum-container">
             <div class="pendulum" id="pendulum"></div>
           </div>
         </div>
 
-        <!-- BPM 控制区：减少按钮 / 数字显示 / 增加按钮 -->
         <div class="bpm-control">
           <button class="btn-icon" id="bpmDown" aria-label="Decrease BPM">&#8722;</button>
           <div class="bpm-display">
@@ -38,38 +34,132 @@
           <button class="btn-icon" id="bpmUp" aria-label="Increase BPM">&#43;</button>
         </div>
 
-        <!-- BPM 滑块（范围 40~240） -->
-        <input
-          type="range"
-          id="bpmSlider"
-          min="40"
-          max="240"
-          value="120"
-          aria-label="BPM slider"
-        />
+        <input type="range" id="bpmSlider" min="40" max="240" value="120" aria-label="BPM slider" />
 
-        <!-- 拍号选择 -->
         <div class="time-sig-control">
-          <label>Time Signature</label>
+          <label data-i18n="timeSig">Time Signature</label>
           <div class="time-sig-buttons">
-            <button class="btn-time active" data-beats="2">2/4</button>
-            <button class="btn-time active" data-beats="3">3/4</button>
+            <button class="btn-time" data-beats="2">2/4</button>
+            <button class="btn-time" data-beats="3">3/4</button>
             <button class="btn-time active" data-beats="4">4/4</button>
             <button class="btn-time" data-beats="6">6/8</button>
           </div>
         </div>
 
-        <!-- 开始 / 停止按钮 -->
-        <button class="btn-start" id="startStop">Start</button>
+        <button class="btn-start" id="startStop" data-i18n="start">Start</button>
 
-        <!-- 点击节拍按钮：通过点击估算 BPM -->
         <div class="tap-area">
-          <button class="btn-tap" id="tapBtn">Tap Tempo</button>
+          <button class="btn-tap" id="tapBtn" data-i18n="tapTempo">Tap Tempo</button>
         </div>
+      </section>
+
+      <!-- Tuner card -->
+      <section class="tuner card" id="tunerCard">
+        <h2 data-i18n="tuner">Tuner</h2>
+
+        <div class="tuner-settings">
+          <div class="tuner-setting-group">
+            <label for="tuningSelect" data-i18n="tuning">Tuning</label>
+            <select id="tuningSelect">
+              <option value="standard">Standard (EADGBe)</option>
+              <option value="dropD">Drop D (DADGBe)</option>
+              <option value="halfDown">Half Step Down (Eb Ab Db Gb Bb eb)</option>
+              <option value="fullDown">Full Step Down (DGCFAd)</option>
+              <option value="openG">Open G (DGDGBd)</option>
+              <option value="openD">Open D (DADf#Ad)</option>
+              <option value="openE">Open E (EBE G#Be)</option>
+              <option value="openA">Open A (EAEAc#e)</option>
+              <option value="dadgad">DADGAD</option>
+              <option value="custom">Custom…</option>
+            </select>
+          </div>
+          <div class="tuner-setting-group">
+            <label for="refPitchSelect" data-i18n="a4ref">A4 Reference</label>
+            <select id="refPitchSelect">
+              <option value="432">432 Hz</option>
+              <option value="434">434 Hz</option>
+              <option value="436">436 Hz</option>
+              <option value="438">438 Hz</option>
+              <option value="440" selected>440 Hz</option>
+              <option value="442">442 Hz</option>
+              <option value="444">444 Hz</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="custom-tuning" id="customTuning">
+          <div class="custom-tuning-header">
+            <span data-i18n="stringLabel">String</span>
+            <span data-i18n="noteLabel">Note</span>
+            <span data-i18n="octaveLabel">Oct</span>
+          </div>
+          <div class="custom-tuning-grid" id="customTuningGrid"></div>
+        </div>
+
+        <div class="tuner-note-display">
+          <div class="tuner-note" id="tunerNote">--</div>
+          <div class="tuner-octave" id="tunerOctave"></div>
+          <div class="tuner-freq" id="tunerFreq"></div>
+        </div>
+
+        <div class="tuner-gauge">
+          <div class="gauge-labels">
+            <span>&#9837;</span>
+            <span>&#9837;</span>
+            <span>&#9837;</span>
+            <span class="gauge-center-label">&#9837;&#9839;</span>
+            <span>&#9839;</span>
+            <span>&#9839;</span>
+            <span>&#9839;</span>
+          </div>
+          <div class="gauge-track">
+            <div class="gauge-needle" id="gaugeNeedle"></div>
+            <div class="gauge-center-mark"></div>
+          </div>
+          <div class="tuner-cents" id="tunerCents">0 ¢</div>
+          <div class="tuner-status" id="tunerStatus"></div>
+        </div>
+
+        <div class="string-refs" id="stringRefs"></div>
+
+        <button class="btn-start" id="tunerStartStop" data-i18n="startTuner">Start Tuner</button>
       </section>
     </main>
   </div>
 
+  <!-- Settings drawer -->
+  <div class="settings-backdrop" id="settingsBackdrop"></div>
+  <aside class="settings-panel" id="settingsPanel">
+    <div class="settings-header">
+      <h2 data-i18n="settings">Settings</h2>
+      <button class="settings-close" id="settingsClose" aria-label="Close">&times;</button>
+    </div>
+    <div class="settings-body">
+      <div class="settings-section">
+        <h3 data-i18n="language">Language</h3>
+        <div class="lang-buttons">
+          <button class="btn-lang active" data-lang="en">English</button>
+          <button class="btn-lang" data-lang="zh">中文</button>
+        </div>
+      </div>
+      <div class="settings-section">
+        <h3 data-i18n="visibleCards">Visible Cards</h3>
+        <label class="settings-toggle">
+          <span data-i18n="metronome">Metronome</span>
+          <input type="checkbox" id="toggleMetronome" checked>
+          <span class="toggle-track"></span>
+        </label>
+        <label class="settings-toggle">
+          <span data-i18n="tuner">Tuner</span>
+          <input type="checkbox" id="toggleTuner" checked>
+          <span class="toggle-track"></span>
+        </label>
+      </div>
+    </div>
+  </aside>
+
+  <script src="app.js"></script>
   <script src="metronome.js"></script>
+  <script src="tuner.js"></script>
 </body>
 </html>
